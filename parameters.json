@@ -1,0 +1,57 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "arcvm02"
+        },
+        "location": {
+            "value": "eastus"
+        },
+        "customLocationId": {
+            "value": "/subscriptions/e3c90de0-0845-43b4-8189-1aa5ce4c97ca/resourceGroups/ARC-HCI1/providers/Microsoft.ExtendedLocation/customLocations/ShinagawaHCI01"
+        },
+        "hardwareProfile": {
+            "value": {
+                "processors": 4,
+                "memoryGB": 8
+            }
+        },
+        "subscriptionId": {
+            "value": "e3c90de0-0845-43b4-8189-1aa5ce4c97ca"
+        },
+        "resourceGroupName": {
+            "value": "ARC-HCI1"
+        },
+        "osType": {
+            "value": "Windows"
+        },
+        "adminUsername": {
+            "value": "vmadmin"
+        },
+        "resourceTags": {
+            "value": {
+                "用途": "ヘルスケアシステム"
+            }
+        },
+        "adminPassword": {
+            "value": null
+        },
+        "storageProfile": {
+            "value": {
+                "imageReference": {
+                    "name": "win22azureedition"
+                }
+            }
+        },
+        "networkProfile": {
+            "value": {
+                "networkInterfaces": [
+                    {
+                        "id": "arcvm02nic"
+                    }
+                ]
+            }
+        }
+    }
+}

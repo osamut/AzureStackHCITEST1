@@ -1,0 +1,94 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string"
+        },
+        "customLocationId": {
+            "type": "string"
+        },
+        "hardwareProfile": {
+            "type": "object"
+        },
+        "storageProfile": {
+            "type": "object"
+        },
+        "subscriptionId": {
+            "type": "string"
+        },
+        "resourceGroupName": {
+            "type": "string"
+        },
+        "osType": {
+            "type": "string"
+        },
+        "adminUsername": {
+            "type": "string"
+        },
+        "resourceTags": {
+            "type": "object"
+        },
+        "adminPassword": {
+            "type": "securestring"
+        },
+        "networkProfile": {
+            "type": "object"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "apiVersion": "2021-07-01-preview",
+            "name": "[parameters('name')]",
+            "location": "[parameters('location')]",
+            "type": "Microsoft.AzureStackHCI/virtualmachines",
+            "tags": "[parameters('resourceTags')]",
+            "properties": {
+                "resourceName": "[parameters('name')]",
+                "hardwareProfile": "[parameters('hardwareProfile')]",
+                "osProfile": {
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]",
+                    "osType": "[parameters('osType')]"
+                },
+                "storageProfile": "[parameters('storageProfile')]",
+                "networkProfile": "[parameters('networkProfile')]"
+            },
+            "extendedLocation": {
+                "type": "CustomLocation",
+                "name": "[parameters('customLocationId')]"
+            },
+            "dependsOn": [
+                "Microsoft.AzureStackHCI/networkinterfaces/arcvm02nic"
+            ]
+        },
+        {
+            "apiVersion": "2021-07-01-preview",
+            "name": "arcvm02nic",
+            "type": "Microsoft.AzureStackHCI/networkinterfaces",
+            "location": "[parameters('location')]",
+            "extendedLocation": {
+                "type": "CustomLocation",
+                "name": "[parameters('customLocationId')]"
+            },
+            "properties": {
+                "resourceName": "arcvm02nic",
+                "ipConfigurations": [
+                    {
+                        "name": "arcvm02nic",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "/subscriptions/e3c90de0-0845-43b4-8189-1aa5ce4c97ca/resourcegroups/arc-hci1/providers/microsoft.azurestackhci/virtualnetworks/computeswitch"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
